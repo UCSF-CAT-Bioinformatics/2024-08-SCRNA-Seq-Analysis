@@ -13,7 +13,7 @@ navigation:
   - title: What is Bioinformatics/Genomics?
     url: pdfs/Genomics_a_perspective_Aug_2024.pdf
   - title: Experimental Design and Cost Estimation
-    url: pdfs/mRNAseq-expDesign_Aug_2024.pdf
+    url: pdfs/scRNAseq-expDesign_Aug_2024.pdf
   - title: Closing thoughts
     url: base/closing
 
@@ -22,24 +22,10 @@ navigation:
     url: data_reduction/filetypes
   - title: Prepare dataset
     url: data_reduction/00-project_setup_mm
-  - title: Preprocessing raw data
-    url: data_reduction/01-preproc_htstream_mm
-  - title: Indexing a Genome
-    url: data_reduction/02-alignment-indexref_mm
-  - title: Alignment with Star
-    url: data_reduction/02-alignment_mm
-  - title: Generating counts tables
-    url: data_reduction/03-counts_mm
 
   - heading: Data analysis
   - title: Annotation from BioMart
     url: data_analysis/annotation_mm
-  - title: Prepare R for data analysis
-    url: data_analysis/de_analysis_prepare_mm
-  - title: Differential Expression Analysis
-    url: data_analysis/DE_Analysis_mm_with_quizzes
-  - title: Pathway Analysis
-    url: data_analysis/enrichment_mm_with_quizzes
 
   - heading: Prerequisites
   - title: CLI
@@ -59,6 +45,6 @@ navigation:
   - title: CAT website
     url: https://cat.ucsf.edu/
   - title: Github page
-    url: https://github.com/UCSF-CAT-Bioinformatics/2024-08-RNA-Seq-Analysis
+    url: https://github.com/UCSF-CAT-Bioinformatics/2024-08-SCRNA-Seq-Analysis
   - title: Report Errors
-    url: https://github.com/UCSF-CAT-Bioinformatics/2024-08-RNA-Seq-Analysis/issues
+    url: https://github.com/UCSF-CAT-Bioinformatics/2024-08-SCRNA-Seq-Analysis/issues
