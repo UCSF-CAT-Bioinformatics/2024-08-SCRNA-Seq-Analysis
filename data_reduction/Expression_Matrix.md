@@ -434,11 +434,14 @@ A summary of the alignment and assignment of reads to cells and genes is present
 
 Cell Ranger does produce a more readable HTML report with the same statistics and some "analysis".
 
-[Cell Ranger V8 web summary](fullset_web_summary.html)
+[Cell Ranger V8 web summary GEX](web_summary.html)
+
+Download the workshop sample data (2 samples), the instructor will provide the download link.
 
 ## Exercises
 
-	1. Explore the folder A001-C-007-copy. Which output folders/files contain the expression matrix?
-	2. Review the metrics_summary.csv file. What was the total number of reads in this sample?
-	3. Use `head` to look at the first few lines of the files under raw_feature_bc_matrix and filtered_feature_bc_matrix. See if you can determine the difference between the raw and filtered results.
+	1. Explore the folder 01-CellRanger. Is it the whole output tree described above?
+	2. Which output folders/files contain the expression matrix?
+	3. Review the metrics_summary.csv file. What was the total number of reads in this sample?
+	4. Use `gunzip` and `head` to look at the first few lines of the files under raw_feature_bc_matrix. What format is the matrix file in? How would you read the data.
 ---

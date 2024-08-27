@@ -8,8 +8,6 @@ navigation:
   - heading: Discussion and Lectures
   - title: Intro to the Workshop
     url: base/welcome
-  - title: Schedule
-    url: base/schedule
   - title: What is Bioinformatics/Genomics?
     url: pdfs/Genomics_a_perspective_Aug_2024.pdf
   - title: Experimental Design and Cost Estimation
