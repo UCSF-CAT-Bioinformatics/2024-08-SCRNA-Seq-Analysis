@@ -1,0 +1,64 @@
+theme: jekyll-theme-minimal
+title: 'Bulk RNA-Seq Analysis'
+show_downloads: True
+navigation:
+  - title: Home
+    url: /
+
+  - heading: Discussion and Lectures
+  - title: Intro to the Workshop
+    url: base/welcome
+  - title: Schedule
+    url: base/schedule
+  - title: What is Bioinformatics/Genomics?
+    url: pdfs/Genomics_a_perspective_Aug_2024.pdf
+  - title: Experimental Design and Cost Estimation
+    url: pdfs/mRNAseq-expDesign_Aug_2024.pdf
+  - title: Closing thoughts
+    url: base/closing
+
+  - heading: Data Reduction
+  - title: Files and Filetypes
+    url: data_reduction/filetypes
+  - title: Prepare dataset
+    url: data_reduction/00-project_setup_mm
+  - title: Preprocessing raw data
+    url: data_reduction/01-preproc_htstream_mm
+  - title: Indexing a Genome
+    url: data_reduction/02-alignment-indexref_mm
+  - title: Alignment with Star
+    url: data_reduction/02-alignment_mm
+  - title: Generating counts tables
+    url: data_reduction/03-counts_mm
+
+  - heading: Data analysis
+  - title: Annotation from BioMart
+    url: data_analysis/annotation_mm
+  - title: Prepare R for data analysis
+    url: data_analysis/de_analysis_prepare_mm
+  - title: Differential Expression Analysis
+    url: data_analysis/DE_Analysis_mm_with_quizzes
+  - title: Pathway Analysis
+    url: data_analysis/enrichment_mm_with_quizzes
+
+  - heading: Prerequisites
+  - title: CLI
+    url: base/cli_prerequisites
+  - title: R
+    url: base/r_prerequisites
+
+  - heading: Support
+  - title: Cheat Sheets
+    url: base/cheatSheetIndex
+  - title: Software and Links
+    url: software_scripts/software
+  - title: Scripts
+    url: software_scripts/scripts_links
+
+  - heading: ETC
+  - title: CAT website
+    url: https://cat.ucsf.edu/
+  - title: Github page
+    url: https://github.com/UCSF-CAT-Bioinformatics/2024-08-RNA-Seq-Analysis
+  - title: Report Errors
+    url: https://github.com/UCSF-CAT-Bioinformatics/2024-08-RNA-Seq-Analysis/issues
