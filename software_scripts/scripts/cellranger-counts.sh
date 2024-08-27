@@ -13,11 +13,11 @@ echo "Allocated threads: " $THREADS
 echo "Allocated memory: " $MEM
 
 ## Where cellranger executable is located
-export PATH=/share/workshop/scRNA_workshop/Software/cellranger-8.0.1/bin:$PATH
+export PATH=[your path to]/cellranger-8.0.1/bin:$PATH
 ## Set the parameters for the run
-basedir="/share/workshop/scRNA_workshop/${USER}"
-transcriptome="/share/workshop/scRNA_workshop/Software/refdata-gex-GRCh38-2024-A"
-fastqs="${basedir}/scrnaseq_example/00-RawData"
+basedir="~"
+transcriptome="[your path to]/refdata-gex-GRCh38-2024-A"
+fastqs="${basedir}/00-RawData"
 outdir="${basedir}/01-Cellranger"
 mkdir -p $outdir
 cd $outdir
@@ -37,6 +37,7 @@ do
 
   ## Some other parameters that may be usefull/needed
   ## --expect-cells=NUM, number of cells expected
+  ## --create-bam true
   ## --include-introns         Include intronic reads in count
   ## --nosecondary, skip the unnecessary secondary analysis
   ## --r2-length=NUM, if your R2 qualities are really poor

@@ -20,8 +20,9 @@ navigation:
   - heading: Data Reduction
   - title: Files and Filetypes
     url: data_reduction/filetypes
-  - title: Prepare dataset
-    url: data_reduction/00-project_setup_mm
+  - title: Generating Expression Matrix
+    url: data_reduction/Expression_Matrix
+
 
   - heading: Data analysis
   - title: Annotation from BioMart
