@@ -1,7 +1,7 @@
 ---
 title: "Prepare scRNA-Seq analysis"
 author: "UC Davis Bioinformatics Core"
-date: "2023-08-03"
+date: "2024-06-04"
 output: 
   html_document:
     keep_md: TRUE
@@ -23,6 +23,12 @@ Learn more about [renv](https://rstudio.github.io/renv/articles/renv.html).
 One of R's many benefits is the large, active user community, which produces and maintains many packages that extend the functionality of base R and provide functions that enable bioinformatic analyses without completely custom code.
 
 The following package installation commands should be run individually, **in the R console**. Many of them will require your input to determine which, if any, dependencies should be updated; for the quickest result, attempt 'n' (none) first.
+
+#### R-universe for arm64 installations
+
+r-universe is a new umbrella project by __rOpenSci__. It uses cross-compiling for arm64 binaries.
+
+<span style="color:blue">For those who are using Macs that have M1/M2/M3 chips, if you have trouble installing the packages and get error that is similar to "ld: warning: ignoring file '/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libR.dylib': found architecture 'arm64', required architecture 'x86_64'", please go to https://r-universe.dev/search/ and search for the packages and use the installation instructions provided there.</span>
 
 #### BiocManager
 BiocManager is an interface for the bioinformatics-specific R package repository. We will be using BiocManager to install other packages when possible, rather than the base R function install.packages.
@@ -245,17 +251,18 @@ In the R console run the following command to download part 1 of data analysis.
 #### Markdown template document
 
 ```r
-download.file("https://raw.githubusercontent.com/ucsf-cat-bioinformatics/2023-December-Single-Cell-RNA-Seq-Analysis/main/data_analysis/01-create_object.Rmd", "01-create_object.Rmd")
+download.file("https://raw.githubusercontent.com/ucsf-cat-bioinformatics/2024-08-SCRNA-Seq-Analysis/main/data_analysis/01-create_object.Rmd", "01-create_object.Rmd")
 ```
 
 #### Expression matrix
 
-In Rstudio, navigate to the terminal tab (next to the console). This gives you access to a bash terminal. Run the following code:
+In Rstudio, navigate to the terminal tab (next to the console). This gives you access to a bash terminal. Run the following code, **remember to change username to your own username for tadpole**:
 
 
 ```bash
-scp username@tadpole.genomecenter.ucdavis.edu:/share/workshop/scRNA_workshop/cellranger_outs/expression_data_cellranger.tar.gz ./
-tar -xzf expression_data_cellranger.tar.gz
+
+scp username@tadpole.genomecenter.ucdavis.edu:/share/workshop/scRNA_workshop/cellranger_outs/expression_data_cellranger.zip ./
+unzip expression_data_cellranger.zip
 <div class='r_output'>
 **Some Windows users may need to use Filezilla/WinSCP to download the file instead.**
 
