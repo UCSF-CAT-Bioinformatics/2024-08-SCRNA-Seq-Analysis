@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Single Cell RNA-Seq Part 4: Dimensionality reduction"
-author: "UCD Bioinformatics Core"
+author: "UCSF CAT Bionformatics"
 date: "2024-06-10"
 output:
     html_document:

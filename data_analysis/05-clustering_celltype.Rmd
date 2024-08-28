@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Single Cell RNA-Seq Part 6: Clustering and cell type assignment"
-author: "UCD Bioinformatics Core"
+author: "UCSF CAT Bionformatics"
 date: "`r Sys.Date()`"
 output:
     html_document:

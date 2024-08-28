@@ -438,6 +438,7 @@ Lets recreate the pretty Cell Ranger html plot
 
 ``` r
 saveRDS(gxp_experiment.aggregate, file="scRNA_workshop-01.rds")
+
 </div>
 #### Download Rmd
 

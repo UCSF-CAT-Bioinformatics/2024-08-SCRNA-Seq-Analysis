@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Single Cell RNA-Seq Part 3: Normalize and scale"
-author: "UCD Bioinformatics Core"
+author: "UCSF CAT Bionformatics"
 output:
     html_document:
       keep_md: TRUE
