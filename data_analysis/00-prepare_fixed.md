@@ -1,7 +1,7 @@
 ---
 title: "Prepare scRNA-Seq analysis"
 author: "UC Davis Bioinformatics Core"
-date: "2024-06-04"
+date: "2024-08-27"
 output: 
   html_document:
     keep_md: TRUE
@@ -15,7 +15,7 @@ Open RStudio and create a new project, for more info see [Using-Projects](https:
 
 *File > New Project > New Directory > New Project*
 
-Name the new directory (e.g. scRNA_analysis), and check "use renv with this project" if present.
+Name the new workshop directory (e.g. scRNA_analysis), and check "use renv with this project" if present.
 
 Learn more about [renv](https://rstudio.github.io/renv/articles/renv.html).
 
@@ -33,216 +33,203 @@ r-universe is a new umbrella project by __rOpenSci__. It uses cross-compiling fo
 #### BiocManager
 BiocManager is an interface for the bioinformatics-specific R package repository. We will be using BiocManager to install other packages when possible, rather than the base R function install.packages.
 
-```r
+``` r
 if (!requireNamespace("BiocManager", quietly = TRUE)){
     install.packages("BiocManager")
 }
-```
-
-#### rmarkdown
+<div class='r_output'>
+ rmarkdown
 The rmarkdown package, when used with others like tinytex and knitr, allows you to knit your Rmd document to nicely-formatted reports.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "rmarkdown")){
   BiocManager::install("rmarkdown")
 }
 library(rmarkdown)
-```
-
+</div>
 #### tinytex
 TinyTeX is a small LaTeX distribution for use with R.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "tinytex")){
   BiocManager::install("tinytex")
 }
 library(tinytex)
-```
+<div class='r_output'>
+ knitr
 
-#### knitr
-
-```r
+``` r
 if (!any(rownames(installed.packages()) == "knitr")){
   BiocManager::install("knitr")
 }
 library(knitr)
-```
-
+</div>
 #### kableExtra
 The kableExtra package gives the user fine-grained control over table formats. This is useful for knit reports.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "kableExtra")){
   BiocManager::install("kableExtra")
 }
 library(kableExtra)
-```
-
-#### ggplot2
+<div class='r_output'>
+ ggplot2
 An extremely popular package by the authors of RStudio, ggplot2 produces highly customizable plots.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "ggplot2")){
   BiocManager::install("ggplot2")
 }
 library(ggplot2)
-```
-
+</div>
 #### dplyr
 Like ggplot2 and tidyr, dplyr is part of the "tidyverse" by the RStudio authors: a group of packages designed for data analysis and visualization.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "dplyr")){
   BiocManager::install("dplyr")
 }
 library(dplyr)
-```
+<div class='r_output'>
+ tidyr
 
-#### tidyr
-
-```r
+``` r
 if (!any(rownames(installed.packages()) == "tidyr")){
   BiocManager::install("tidyr")
 }
 library(tidyr)
-```
-
+</div>
 #### viridis
 viridis produces accessible color palettes.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "viridis")){
   BiocManager::install("viridis")
 }
 library(viridis)
-```
-
-#### hdf5r
+<div class='r_output'>
+ hdf5r
 HDF5 (heirarchical data format version five) files can be used to store single cell expression data (including output from Cell Ranger). The hdf5r package provides utilities for interacting with the format.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "hdf5r")){
   BiocManager::install("hdf5r")
 }
 library(hdf5r)
-```
-
+</div>
 #### Seurat
 Seurat is an extensive package for the analysis of single cell experiments, from normalization to visualization.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "Seurat")){
   BiocManager::install("Seurat")
 }
 library(Seurat)
-```
-
-#### ComplexHeatmap
+<div class='r_output'>
+ ComplexHeatmap
 ComplexHeatmap produces beautiful, highly-customizable heat maps.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "ComplexHeatmap")){
   BiocManager::install("ComplexHeatmap")
 }
 library(ComplexHeatmap)
-```
-
+</div>
 #### biomaRt
 This package provides an interface to Ensembl databases.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "biomaRt")){
   BiocManager::install("biomaRt")
 }
 library(biomaRt)
-```
-
-#### org.Hs.eg.db
+<div class='r_output'>
+ org.Hs.eg.db
 org.Hs.eg.db contains genome-wide annotation based on Entrez Gene identifiers in the Human genome.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "org.Hs.eg.db")){
   BiocManager::install("org.Hs.eg.db")
 }
 library(org.Hs.eg.db)
-```
-
+</div>
 #### limma
 Originally developed for microarray data, limma provides functions for linear modeling and differential expression.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "limma")){
   BiocManager::install("limma")
 }
 library(limma)
-```
-
-#### topGO
+<div class='r_output'>
+ topGO
 Test gene ontology (GO) term enrichment while accounting for the topology of the GO graph.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "topGO")){
   BiocManager::install("topGO")
 }
 library(topGO)
-```
-
+</div>
 #### remotes
 Some packages (or versions of packages) cannot be installed through Bioconductor. The remotes package contains tools for installing packages from a number of repositories, including GitHub.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "remotes")){
   utils::install.packages("remotes")
 }
 library(remotes)
-```
-
-#### ape
+<div class='r_output'>
+ ape
 Analysis of Phylogenetics and Evolution (ape) is used to generate and manipulate phylogenetic trees. In this workshop, we will be using ape to investigate the relationships between clusters.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "ape")){
   utils::install.packages("ape")
 }
 library(ape)
-```
-
+</div>
 #### DoubletFinder
 DoubletFinder detects multiplets within single cell or nucleus data.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "DoubletFinder")){
   remotes::install_github('chris-mcginnis-ucsf/DoubletFinder')
 }
 library(DoubletFinder)
-```
-
-#### openxlsx
+<div class='r_output'>
+ openxlsx
 The openxlsx package is a suite of tools for reading and writing .xlsx files.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "openxlsx")){
   BiocManager::install("openxlsx")
 }
 library(openxlsx)
-```
-
+</div>
 #### HGNChelper
 Both R and Excel can introduce changes to gene symbols. HGNChelper can correct gene symbols that have been altered, and convert gene symbols to valid R names.
 
-```r
+``` r
 if (!any(rownames(installed.packages()) == "HGNChelper")){
   BiocManager::install("HGNChelper")
 }
 library(HGNChelper)
-```
+<div class='r_output'>
 
-#### Verfiy installation
-Finally, we can get the session info to ensure that all of the packages were installed and loaded correctly.
+ Expression matrix
 
-```r
-sessionInfo()
-```
+Move the downloaded dataset to the RStudio Project folder.
+
+If the zip file isn't extracted yet you can extrct it on the R terminal.
+
+In Rstudio, navigate to the terminal tab (next to the console). This gives you access to a bash terminal. Run the following code:
+
+``` bash
+unzip 01-CellRanger.zip
+</div>
+When the download and extraction are complete, you should see three folder: 01-CellRanger
+
 
 ### Download materials and prepare for the next section
 
@@ -250,20 +237,12 @@ In the R console run the following command to download part 1 of data analysis.
 
 #### Markdown template document
 
-```r
-download.file("https://raw.githubusercontent.com/ucsf-cat-bioinformatics/2024-08-SCRNA-Seq-Analysis/main/data_analysis/01-create_object.Rmd", "01-create_object.Rmd")
-```
+``` r
+download.file("https://raw.githubusercontent.com/ucsf-cat-bioinformatics/2024-08-SCRNA-Seq-Analysis/main/data_analysis/01-create_object.Rmd", "01-create_object2.Rmd")
+<div class='r_output'> Verfiy installation
+Finally, we can get the session info to ensure that all of the packages were installed and loaded correctly.
 
-#### Expression matrix
+``` r
+sessionInfo()
+</div>
 
-In Rstudio, navigate to the terminal tab (next to the console). This gives you access to a bash terminal. Run the following code, **remember to change username to your own username for tadpole**:
-
-
-```bash
-
-scp username@tadpole.genomecenter.ucdavis.edu:/share/workshop/scRNA_workshop/cellranger_outs/expression_data_cellranger.zip ./
-unzip expression_data_cellranger.zip
-<div class='r_output'>
-**Some Windows users may need to use Filezilla/WinSCP to download the file instead.**
-
-When the download and extraction are complete, you should see three folders: A001-C-007, A001-C-104 and B001-A-301. Make sure the "01-create_object.Rmd" file is in the same location.

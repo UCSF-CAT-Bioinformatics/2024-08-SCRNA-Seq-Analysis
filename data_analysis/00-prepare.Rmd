@@ -17,7 +17,7 @@ Open RStudio and create a new project, for more info see [Using-Projects](https:
 
 *File > New Project > New Directory > New Project*
 
-Name the new directory (e.g. scRNA_analysis), and check "use renv with this project" if present.
+Name the new workshop directory (e.g. scRNA_analysis), and check "use renv with this project" if present.
 
 Learn more about [renv](https://rstudio.github.io/renv/articles/renv.html).
 
@@ -218,20 +218,6 @@ if (!any(rownames(installed.packages()) == "HGNChelper")){
 library(HGNChelper)
 ```
 
-#### Verfiy installation
-Finally, we can get the session info to ensure that all of the packages were installed and loaded correctly.
-```{r}
-sessionInfo()
-```
-
-### Download materials and prepare for the next section
-
-In the R console run the following command to download part 1 of data analysis.
-
-#### Markdown template document
-```{r}
-download.file("https://raw.githubusercontent.com/ucsf-cat-bioinformatics/2024-08-SCRNA-Seq-Analysis/main/data_analysis/01-create_object.Rmd", "01-create_object.Rmd")
-```
 
 #### Expression matrix
 
@@ -244,4 +230,21 @@ In Rstudio, navigate to the terminal tab (next to the console). This gives you a
 unzip 01-CellRanger.zip
 ```
 
-When the download and extraction are complete, you should see three folders: A001-C-007, A001-C-104 and B001-A-301. Make sure the "01-create_object.Rmd" file is in the same location.
+When the download and extraction are complete, you should see three folder: 01-CellRanger
+
+
+### Download materials and prepare for the next section
+
+In the R console run the following command to download part 1 of data analysis.
+
+#### Markdown template document
+```{r}
+download.file("https://raw.githubusercontent.com/ucsf-cat-bioinformatics/2024-08-SCRNA-Seq-Analysis/main/data_analysis/01-create_object.Rmd", "01-create_object2.Rmd")
+```
+#### Verfiy installation
+Finally, we can get the session info to ensure that all of the packages were installed and loaded correctly.
+```{r}
+sessionInfo()
+```
+
+
