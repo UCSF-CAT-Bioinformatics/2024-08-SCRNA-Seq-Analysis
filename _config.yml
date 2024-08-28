@@ -34,6 +34,8 @@ navigation:
     url: data_analysis/01-create_object
   - title: Part 2- Filtering
     url: data_analysis/02-filtering
+  - title: Part 3- Normalization
+    url: data_analysis/03-normalize_scale
 
   - heading: Support
   - title: Cheat Sheets
