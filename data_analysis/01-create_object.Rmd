@@ -30,10 +30,10 @@ The 10X data and metadata we have available for this subset of a recent experime
 ### Setup the experiment folder and data info
 ```{r exp_setup, warning=FALSE,error=FALSE, message=FALSE, echo=FALSE}
 experiment_name = "Workshop scRNA Seq UCSF"
-dataset_loc <- "./01-CellRanger"
-experiment.metadata <- data.frame(ids = c("LRTI_WRK1", "LRTI_WRK2"),
-                                  group = c("LRTI_Patient", "LRTI_Patient"),
-                                  run = c("Batch1", "Batch1"))
+dataset_loc <- "./01-CellRanger2"
+experiment.metadata <- data.frame(ids = c("LRTI_WRK1", "LRTI_WRK2", "LRTI_WRK3", "LRTI_WRK4"),
+                                  group = c("LRTI_Patient", "LRTI_Patient", c("LRTI_Patient", "LRTI_Patient")),
+                                  run = c("Batch1", "Batch1","Batch2", "Batch2"))
 experiment.metadata %>%
   kable() %>%
   kable_styling("striped")

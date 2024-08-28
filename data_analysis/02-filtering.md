@@ -1,7 +1,7 @@
 ---
 title: "Basics of Single Cell RNA-Seq Part 2: QA and filtering"
 author: "UCSF CAT Bioinformatics"
-date: "2024-08-27"
+date: "2024-08-28"
 output:
     html_document:
       keep_md: TRUE
@@ -24,6 +24,7 @@ library(kableExtra)
 
 If you are continuing directly from part 1, the experiment.aggregate object is likely already in your workspace. In case you cleared your workspace at the end of the previous section, or are working on this project at a later date after re-starting R, you can use the `readRDS` function to read your saved Seurat object from part 1.
 
+
 ``` r
 experiment.aggregate <- readRDS("scRNA_workshop-01.rds")
 experiment.aggregate
@@ -31,7 +32,7 @@ experiment.aggregate
 
 ```
 ## An object of class Seurat 
-## 38606 features across 39196 samples within 1 assay 
+## 38606 features across 60697 samples within 1 assay 
 ## Active assay: RNA (38606 features, 0 variable features)
 ##  1 layer present: counts
 ```
@@ -49,11 +50,19 @@ experiment.aggregate
 <tbody>
   <tr>
    <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 24478 </td>
+   <td style="text-align:right;"> 28124 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> LRTI_WRK2 </td>
-   <td style="text-align:right;"> 14718 </td>
+   <td style="text-align:right;"> 14933 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> LRTI_WRK3 </td>
+   <td style="text-align:right;"> 3343 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> LRTI_WRK4 </td>
+   <td style="text-align:right;"> 14297 </td>
   </tr>
 </tbody>
 </table>
@@ -84,113 +93,157 @@ Each is a different way of looking at the data as to get a better understanding 
    <th style="text-align:left;">  </th>
    <th style="text-align:right;"> LRTI_WRK1 </th>
    <th style="text-align:right;"> LRTI_WRK2 </th>
+   <th style="text-align:right;"> LRTI_WRK3 </th>
+   <th style="text-align:right;"> LRTI_WRK4 </th>
   </tr>
  </thead>
 <tbody>
   <tr>
    <td style="text-align:left;"> 0% </td>
    <td style="text-align:right;"> 300.00 </td>
-   <td style="text-align:right;"> 300.00 </td>
+   <td style="text-align:right;"> 300.0 </td>
+   <td style="text-align:right;"> 300.0 </td>
+   <td style="text-align:right;"> 300.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 5% </td>
-   <td style="text-align:right;"> 307.00 </td>
-   <td style="text-align:right;"> 387.00 </td>
+   <td style="text-align:right;"> 305.00 </td>
+   <td style="text-align:right;"> 387.0 </td>
+   <td style="text-align:right;"> 337.1 </td>
+   <td style="text-align:right;"> 701.4 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 10% </td>
-   <td style="text-align:right;"> 317.00 </td>
-   <td style="text-align:right;"> 551.70 </td>
+   <td style="text-align:right;"> 311.00 </td>
+   <td style="text-align:right;"> 522.2 </td>
+   <td style="text-align:right;"> 375.0 </td>
+   <td style="text-align:right;"> 1671.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 15% </td>
-   <td style="text-align:right;"> 330.00 </td>
-   <td style="text-align:right;"> 1135.00 </td>
+   <td style="text-align:right;"> 320.00 </td>
+   <td style="text-align:right;"> 993.6 </td>
+   <td style="text-align:right;"> 435.3 </td>
+   <td style="text-align:right;"> 2686.4 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 20% </td>
-   <td style="text-align:right;"> 350.00 </td>
-   <td style="text-align:right;"> 1643.00 </td>
+   <td style="text-align:right;"> 330.00 </td>
+   <td style="text-align:right;"> 1650.0 </td>
+   <td style="text-align:right;"> 499.4 </td>
+   <td style="text-align:right;"> 3509.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 25% </td>
-   <td style="text-align:right;"> 377.00 </td>
-   <td style="text-align:right;"> 2090.25 </td>
+   <td style="text-align:right;"> 345.00 </td>
+   <td style="text-align:right;"> 2104.0 </td>
+   <td style="text-align:right;"> 585.0 </td>
+   <td style="text-align:right;"> 3982.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 30% </td>
-   <td style="text-align:right;"> 409.00 </td>
-   <td style="text-align:right;"> 2762.40 </td>
+   <td style="text-align:right;"> 368.00 </td>
+   <td style="text-align:right;"> 2789.0 </td>
+   <td style="text-align:right;"> 727.6 </td>
+   <td style="text-align:right;"> 4310.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 35% </td>
-   <td style="text-align:right;"> 449.00 </td>
-   <td style="text-align:right;"> 3359.90 </td>
+   <td style="text-align:right;"> 401.00 </td>
+   <td style="text-align:right;"> 3472.0 </td>
+   <td style="text-align:right;"> 908.0 </td>
+   <td style="text-align:right;"> 4543.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 40% </td>
-   <td style="text-align:right;"> 510.00 </td>
-   <td style="text-align:right;"> 3818.00 </td>
+   <td style="text-align:right;"> 441.00 </td>
+   <td style="text-align:right;"> 3981.8 </td>
+   <td style="text-align:right;"> 1186.8 </td>
+   <td style="text-align:right;"> 4732.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 45% </td>
-   <td style="text-align:right;"> 665.00 </td>
-   <td style="text-align:right;"> 4176.65 </td>
+   <td style="text-align:right;"> 494.00 </td>
+   <td style="text-align:right;"> 4398.4 </td>
+   <td style="text-align:right;"> 1699.6 </td>
+   <td style="text-align:right;"> 4913.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 50% </td>
-   <td style="text-align:right;"> 983.00 </td>
-   <td style="text-align:right;"> 4484.00 </td>
+   <td style="text-align:right;"> 602.00 </td>
+   <td style="text-align:right;"> 4725.0 </td>
+   <td style="text-align:right;"> 2184.0 </td>
+   <td style="text-align:right;"> 5066.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 55% </td>
-   <td style="text-align:right;"> 1380.00 </td>
-   <td style="text-align:right;"> 4736.00 </td>
+   <td style="text-align:right;"> 900.30 </td>
+   <td style="text-align:right;"> 5011.0 </td>
+   <td style="text-align:right;"> 2617.1 </td>
+   <td style="text-align:right;"> 5212.8 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 60% </td>
-   <td style="text-align:right;"> 1795.00 </td>
-   <td style="text-align:right;"> 4966.20 </td>
+   <td style="text-align:right;"> 1386.00 </td>
+   <td style="text-align:right;"> 5260.0 </td>
+   <td style="text-align:right;"> 3196.0 </td>
+   <td style="text-align:right;"> 5347.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 65% </td>
-   <td style="text-align:right;"> 2407.00 </td>
-   <td style="text-align:right;"> 5182.00 </td>
+   <td style="text-align:right;"> 1886.90 </td>
+   <td style="text-align:right;"> 5496.0 </td>
+   <td style="text-align:right;"> 3785.0 </td>
+   <td style="text-align:right;"> 5493.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 70% </td>
-   <td style="text-align:right;"> 3005.90 </td>
-   <td style="text-align:right;"> 5360.90 </td>
+   <td style="text-align:right;"> 2616.10 </td>
+   <td style="text-align:right;"> 5691.0 </td>
+   <td style="text-align:right;"> 4287.2 </td>
+   <td style="text-align:right;"> 5630.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 75% </td>
-   <td style="text-align:right;"> 3598.75 </td>
-   <td style="text-align:right;"> 5548.75 </td>
+   <td style="text-align:right;"> 3352.00 </td>
+   <td style="text-align:right;"> 5894.0 </td>
+   <td style="text-align:right;"> 4799.5 </td>
+   <td style="text-align:right;"> 5793.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 80% </td>
-   <td style="text-align:right;"> 4168.60 </td>
-   <td style="text-align:right;"> 5738.60 </td>
+   <td style="text-align:right;"> 4076.40 </td>
+   <td style="text-align:right;"> 6099.0 </td>
+   <td style="text-align:right;"> 5387.4 </td>
+   <td style="text-align:right;"> 5960.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 85% </td>
-   <td style="text-align:right;"> 4608.00 </td>
-   <td style="text-align:right;"> 5934.00 </td>
+   <td style="text-align:right;"> 4682.00 </td>
+   <td style="text-align:right;"> 6311.2 </td>
+   <td style="text-align:right;"> 5961.0 </td>
+   <td style="text-align:right;"> 6178.6 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 90% </td>
-   <td style="text-align:right;"> 5050.30 </td>
-   <td style="text-align:right;"> 6185.00 </td>
+   <td style="text-align:right;"> 5221.70 </td>
+   <td style="text-align:right;"> 6580.0 </td>
+   <td style="text-align:right;"> 6703.8 </td>
+   <td style="text-align:right;"> 6460.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 95% </td>
-   <td style="text-align:right;"> 5614.30 </td>
-   <td style="text-align:right;"> 6588.15 </td>
+   <td style="text-align:right;"> 5836.85 </td>
+   <td style="text-align:right;"> 7010.0 </td>
+   <td style="text-align:right;"> 7645.3 </td>
+   <td style="text-align:right;"> 6982.2 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 100% </td>
-   <td style="text-align:right;"> 12390.00 </td>
-   <td style="text-align:right;"> 10160.00 </td>
+   <td style="text-align:right;"> 13205.00 </td>
+   <td style="text-align:right;"> 10859.0 </td>
+   <td style="text-align:right;"> 13321.0 </td>
+   <td style="text-align:right;"> 9953.0 </td>
   </tr>
 </tbody>
 </table>
@@ -206,113 +259,157 @@ Each is a different way of looking at the data as to get a better understanding 
    <th style="text-align:left;">  </th>
    <th style="text-align:right;"> LRTI_WRK1 </th>
    <th style="text-align:right;"> LRTI_WRK2 </th>
+   <th style="text-align:right;"> LRTI_WRK3 </th>
+   <th style="text-align:right;"> LRTI_WRK4 </th>
   </tr>
  </thead>
 <tbody>
   <tr>
    <td style="text-align:left;"> 0% </td>
-   <td style="text-align:right;"> 329.00 </td>
-   <td style="text-align:right;"> 369.00 </td>
+   <td style="text-align:right;"> 333.00 </td>
+   <td style="text-align:right;"> 341.0 </td>
+   <td style="text-align:right;"> 337.0 </td>
+   <td style="text-align:right;"> 329.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 5% </td>
-   <td style="text-align:right;"> 376.00 </td>
-   <td style="text-align:right;"> 637.85 </td>
+   <td style="text-align:right;"> 374.00 </td>
+   <td style="text-align:right;"> 633.0 </td>
+   <td style="text-align:right;"> 548.0 </td>
+   <td style="text-align:right;"> 1550.4 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 10% </td>
-   <td style="text-align:right;"> 394.00 </td>
-   <td style="text-align:right;"> 1029.70 </td>
+   <td style="text-align:right;"> 387.00 </td>
+   <td style="text-align:right;"> 989.0 </td>
+   <td style="text-align:right;"> 663.0 </td>
+   <td style="text-align:right;"> 3475.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 15% </td>
-   <td style="text-align:right;"> 418.00 </td>
-   <td style="text-align:right;"> 2169.65 </td>
+   <td style="text-align:right;"> 402.00 </td>
+   <td style="text-align:right;"> 1989.2 </td>
+   <td style="text-align:right;"> 822.0 </td>
+   <td style="text-align:right;"> 7046.8 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 20% </td>
-   <td style="text-align:right;"> 451.00 </td>
-   <td style="text-align:right;"> 3280.20 </td>
+   <td style="text-align:right;"> 421.00 </td>
+   <td style="text-align:right;"> 3332.4 </td>
+   <td style="text-align:right;"> 999.0 </td>
+   <td style="text-align:right;"> 11645.6 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 25% </td>
-   <td style="text-align:right;"> 494.00 </td>
-   <td style="text-align:right;"> 4612.50 </td>
+   <td style="text-align:right;"> 448.00 </td>
+   <td style="text-align:right;"> 4581.0 </td>
+   <td style="text-align:right;"> 1217.5 </td>
+   <td style="text-align:right;"> 15134.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 30% </td>
-   <td style="text-align:right;"> 547.00 </td>
-   <td style="text-align:right;"> 7444.30 </td>
+   <td style="text-align:right;"> 489.00 </td>
+   <td style="text-align:right;"> 7493.6 </td>
+   <td style="text-align:right;"> 1642.2 </td>
+   <td style="text-align:right;"> 17535.8 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 35% </td>
-   <td style="text-align:right;"> 625.00 </td>
-   <td style="text-align:right;"> 10452.00 </td>
+   <td style="text-align:right;"> 542.00 </td>
+   <td style="text-align:right;"> 10957.2 </td>
+   <td style="text-align:right;"> 2123.2 </td>
+   <td style="text-align:right;"> 19545.8 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 40% </td>
-   <td style="text-align:right;"> 782.00 </td>
-   <td style="text-align:right;"> 13295.00 </td>
+   <td style="text-align:right;"> 614.20 </td>
+   <td style="text-align:right;"> 14282.8 </td>
+   <td style="text-align:right;"> 2790.8 </td>
+   <td style="text-align:right;"> 21091.8 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 45% </td>
-   <td style="text-align:right;"> 1127.65 </td>
-   <td style="text-align:right;"> 15955.55 </td>
+   <td style="text-align:right;"> 736.00 </td>
+   <td style="text-align:right;"> 17231.0 </td>
+   <td style="text-align:right;"> 3963.5 </td>
+   <td style="text-align:right;"> 22609.4 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 50% </td>
-   <td style="text-align:right;"> 1698.50 </td>
-   <td style="text-align:right;"> 18491.00 </td>
+   <td style="text-align:right;"> 1051.00 </td>
+   <td style="text-align:right;"> 20197.0 </td>
+   <td style="text-align:right;"> 5167.0 </td>
+   <td style="text-align:right;"> 23955.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 55% </td>
-   <td style="text-align:right;"> 2396.00 </td>
-   <td style="text-align:right;"> 20944.15 </td>
+   <td style="text-align:right;"> 1660.65 </td>
+   <td style="text-align:right;"> 23045.8 </td>
+   <td style="text-align:right;"> 6994.1 </td>
+   <td style="text-align:right;"> 25328.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 60% </td>
-   <td style="text-align:right;"> 3338.40 </td>
-   <td style="text-align:right;"> 23336.40 </td>
+   <td style="text-align:right;"> 2496.00 </td>
+   <td style="text-align:right;"> 25809.2 </td>
+   <td style="text-align:right;"> 9699.0 </td>
+   <td style="text-align:right;"> 26753.6 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 65% </td>
-   <td style="text-align:right;"> 5220.00 </td>
-   <td style="text-align:right;"> 25543.05 </td>
+   <td style="text-align:right;"> 3615.85 </td>
+   <td style="text-align:right;"> 28400.8 </td>
+   <td style="text-align:right;"> 12977.6 </td>
+   <td style="text-align:right;"> 28163.8 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 70% </td>
-   <td style="text-align:right;"> 7494.90 </td>
-   <td style="text-align:right;"> 27622.00 </td>
+   <td style="text-align:right;"> 6011.20 </td>
+   <td style="text-align:right;"> 30822.4 </td>
+   <td style="text-align:right;"> 16366.8 </td>
+   <td style="text-align:right;"> 29885.4 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 75% </td>
-   <td style="text-align:right;"> 10529.75 </td>
-   <td style="text-align:right;"> 29866.75 </td>
+   <td style="text-align:right;"> 8947.50 </td>
+   <td style="text-align:right;"> 33341.0 </td>
+   <td style="text-align:right;"> 21187.5 </td>
+   <td style="text-align:right;"> 31696.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 80% </td>
-   <td style="text-align:right;"> 14225.80 </td>
-   <td style="text-align:right;"> 32275.60 </td>
+   <td style="text-align:right;"> 13408.60 </td>
+   <td style="text-align:right;"> 36139.0 </td>
+   <td style="text-align:right;"> 27606.0 </td>
+   <td style="text-align:right;"> 33712.6 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 85% </td>
-   <td style="text-align:right;"> 18083.00 </td>
-   <td style="text-align:right;"> 34763.45 </td>
+   <td style="text-align:right;"> 18554.55 </td>
+   <td style="text-align:right;"> 38939.4 </td>
+   <td style="text-align:right;"> 35278.6 </td>
+   <td style="text-align:right;"> 36513.2 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 90% </td>
-   <td style="text-align:right;"> 21817.60 </td>
-   <td style="text-align:right;"> 38190.50 </td>
+   <td style="text-align:right;"> 23435.40 </td>
+   <td style="text-align:right;"> 42897.6 </td>
+   <td style="text-align:right;"> 46873.4 </td>
+   <td style="text-align:right;"> 40754.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 95% </td>
-   <td style="text-align:right;"> 26494.45 </td>
-   <td style="text-align:right;"> 44213.30 </td>
+   <td style="text-align:right;"> 29076.05 </td>
+   <td style="text-align:right;"> 49827.2 </td>
+   <td style="text-align:right;"> 67186.0 </td>
+   <td style="text-align:right;"> 49096.0 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 100% </td>
-   <td style="text-align:right;"> 150158.00 </td>
-   <td style="text-align:right;"> 100628.00 </td>
+   <td style="text-align:right;"> 170061.00 </td>
+   <td style="text-align:right;"> 113899.0 </td>
+   <td style="text-align:right;"> 374591.0 </td>
+   <td style="text-align:right;"> 130605.0 </td>
   </tr>
 </tbody>
 </table>
@@ -328,6 +425,8 @@ Each is a different way of looking at the data as to get a better understanding 
    <th style="text-align:left;">  </th>
    <th style="text-align:right;"> LRTI_WRK1 </th>
    <th style="text-align:right;"> LRTI_WRK2 </th>
+   <th style="text-align:right;"> LRTI_WRK3 </th>
+   <th style="text-align:right;"> LRTI_WRK4 </th>
   </tr>
  </thead>
 <tbody>
@@ -335,106 +434,148 @@ Each is a different way of looking at the data as to get a better understanding 
    <td style="text-align:left;"> 0% </td>
    <td style="text-align:right;"> 0.000 </td>
    <td style="text-align:right;"> 0.000 </td>
+   <td style="text-align:right;"> 0.000 </td>
+   <td style="text-align:right;"> 0.000 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 5% </td>
-   <td style="text-align:right;"> 0.328 </td>
-   <td style="text-align:right;"> 0.561 </td>
+   <td style="text-align:right;"> 0.368 </td>
+   <td style="text-align:right;"> 0.525 </td>
+   <td style="text-align:right;"> 0.180 </td>
+   <td style="text-align:right;"> 1.614 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 10% </td>
-   <td style="text-align:right;"> 0.694 </td>
-   <td style="text-align:right;"> 1.517 </td>
+   <td style="text-align:right;"> 0.721 </td>
+   <td style="text-align:right;"> 1.464 </td>
+   <td style="text-align:right;"> 0.357 </td>
+   <td style="text-align:right;"> 2.055 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 15% </td>
-   <td style="text-align:right;"> 1.028 </td>
-   <td style="text-align:right;"> 2.015 </td>
+   <td style="text-align:right;"> 1.018 </td>
+   <td style="text-align:right;"> 2.116 </td>
+   <td style="text-align:right;"> 0.584 </td>
+   <td style="text-align:right;"> 2.297 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 20% </td>
-   <td style="text-align:right;"> 1.340 </td>
-   <td style="text-align:right;"> 2.311 </td>
+   <td style="text-align:right;"> 1.311 </td>
+   <td style="text-align:right;"> 2.472 </td>
+   <td style="text-align:right;"> 0.796 </td>
+   <td style="text-align:right;"> 2.477 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 25% </td>
-   <td style="text-align:right;"> 1.617 </td>
-   <td style="text-align:right;"> 2.534 </td>
+   <td style="text-align:right;"> 1.606 </td>
+   <td style="text-align:right;"> 2.737 </td>
+   <td style="text-align:right;"> 1.075 </td>
+   <td style="text-align:right;"> 2.629 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 30% </td>
-   <td style="text-align:right;"> 1.860 </td>
-   <td style="text-align:right;"> 2.723 </td>
+   <td style="text-align:right;"> 1.887 </td>
+   <td style="text-align:right;"> 2.963 </td>
+   <td style="text-align:right;"> 1.302 </td>
+   <td style="text-align:right;"> 2.752 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 35% </td>
-   <td style="text-align:right;"> 2.072 </td>
-   <td style="text-align:right;"> 2.894 </td>
+   <td style="text-align:right;"> 2.123 </td>
+   <td style="text-align:right;"> 3.156 </td>
+   <td style="text-align:right;"> 1.570 </td>
+   <td style="text-align:right;"> 2.879 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 40% </td>
-   <td style="text-align:right;"> 2.277 </td>
-   <td style="text-align:right;"> 3.047 </td>
+   <td style="text-align:right;"> 2.356 </td>
+   <td style="text-align:right;"> 3.327 </td>
+   <td style="text-align:right;"> 1.863 </td>
+   <td style="text-align:right;"> 2.996 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 45% </td>
-   <td style="text-align:right;"> 2.473 </td>
-   <td style="text-align:right;"> 3.193 </td>
+   <td style="text-align:right;"> 2.583 </td>
+   <td style="text-align:right;"> 3.511 </td>
+   <td style="text-align:right;"> 2.103 </td>
+   <td style="text-align:right;"> 3.118 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 50% </td>
-   <td style="text-align:right;"> 2.687 </td>
-   <td style="text-align:right;"> 3.340 </td>
+   <td style="text-align:right;"> 2.820 </td>
+   <td style="text-align:right;"> 3.675 </td>
+   <td style="text-align:right;"> 2.336 </td>
+   <td style="text-align:right;"> 3.239 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 55% </td>
-   <td style="text-align:right;"> 2.936 </td>
-   <td style="text-align:right;"> 3.489 </td>
+   <td style="text-align:right;"> 3.100 </td>
+   <td style="text-align:right;"> 3.839 </td>
+   <td style="text-align:right;"> 2.642 </td>
+   <td style="text-align:right;"> 3.364 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 60% </td>
-   <td style="text-align:right;"> 3.245 </td>
-   <td style="text-align:right;"> 3.647 </td>
+   <td style="text-align:right;"> 3.434 </td>
+   <td style="text-align:right;"> 4.017 </td>
+   <td style="text-align:right;"> 2.907 </td>
+   <td style="text-align:right;"> 3.494 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 65% </td>
-   <td style="text-align:right;"> 3.695 </td>
-   <td style="text-align:right;"> 3.810 </td>
+   <td style="text-align:right;"> 3.909 </td>
+   <td style="text-align:right;"> 4.196 </td>
+   <td style="text-align:right;"> 3.312 </td>
+   <td style="text-align:right;"> 3.639 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 70% </td>
-   <td style="text-align:right;"> 4.327 </td>
-   <td style="text-align:right;"> 3.992 </td>
+   <td style="text-align:right;"> 4.605 </td>
+   <td style="text-align:right;"> 4.391 </td>
+   <td style="text-align:right;"> 3.755 </td>
+   <td style="text-align:right;"> 3.806 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 75% </td>
-   <td style="text-align:right;"> 5.345 </td>
-   <td style="text-align:right;"> 4.180 </td>
+   <td style="text-align:right;"> 5.650 </td>
+   <td style="text-align:right;"> 4.615 </td>
+   <td style="text-align:right;"> 4.394 </td>
+   <td style="text-align:right;"> 4.004 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 80% </td>
-   <td style="text-align:right;"> 6.809 </td>
-   <td style="text-align:right;"> 4.434 </td>
+   <td style="text-align:right;"> 7.262 </td>
+   <td style="text-align:right;"> 4.895 </td>
+   <td style="text-align:right;"> 5.388 </td>
+   <td style="text-align:right;"> 4.275 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 85% </td>
-   <td style="text-align:right;"> 8.838 </td>
-   <td style="text-align:right;"> 4.780 </td>
+   <td style="text-align:right;"> 9.610 </td>
+   <td style="text-align:right;"> 5.273 </td>
+   <td style="text-align:right;"> 7.478 </td>
+   <td style="text-align:right;"> 4.672 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 90% </td>
-   <td style="text-align:right;"> 12.828 </td>
-   <td style="text-align:right;"> 5.396 </td>
+   <td style="text-align:right;"> 14.019 </td>
+   <td style="text-align:right;"> 5.942 </td>
+   <td style="text-align:right;"> 10.352 </td>
+   <td style="text-align:right;"> 5.566 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 95% </td>
-   <td style="text-align:right;"> 27.174 </td>
-   <td style="text-align:right;"> 8.453 </td>
+   <td style="text-align:right;"> 30.216 </td>
+   <td style="text-align:right;"> 9.451 </td>
+   <td style="text-align:right;"> 25.616 </td>
+   <td style="text-align:right;"> 10.212 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 100% </td>
-   <td style="text-align:right;"> 93.319 </td>
-   <td style="text-align:right;"> 85.343 </td>
+   <td style="text-align:right;"> 94.769 </td>
+   <td style="text-align:right;"> 87.811 </td>
+   <td style="text-align:right;"> 91.625 </td>
+   <td style="text-align:right;"> 88.044 </td>
   </tr>
 </tbody>
 </table>
@@ -450,6 +591,8 @@ Each is a different way of looking at the data as to get a better understanding 
    <th style="text-align:left;">  </th>
    <th style="text-align:right;"> LRTI_WRK1 </th>
    <th style="text-align:right;"> LRTI_WRK2 </th>
+   <th style="text-align:right;"> LRTI_WRK3 </th>
+   <th style="text-align:right;"> LRTI_WRK4 </th>
   </tr>
  </thead>
 <tbody>
@@ -457,106 +600,148 @@ Each is a different way of looking at the data as to get a better understanding 
    <td style="text-align:left;"> 0% </td>
    <td style="text-align:right;"> 0.000 </td>
    <td style="text-align:right;"> 0.000 </td>
+   <td style="text-align:right;"> 0.000 </td>
+   <td style="text-align:right;"> 0.144 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 5% </td>
-   <td style="text-align:right;"> 0.873 </td>
-   <td style="text-align:right;"> 0.646 </td>
+   <td style="text-align:right;"> 0.882 </td>
+   <td style="text-align:right;"> 0.611 </td>
+   <td style="text-align:right;"> 0.192 </td>
+   <td style="text-align:right;"> 1.498 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 10% </td>
-   <td style="text-align:right;"> 1.789 </td>
-   <td style="text-align:right;"> 1.221 </td>
+   <td style="text-align:right;"> 1.907 </td>
+   <td style="text-align:right;"> 1.135 </td>
+   <td style="text-align:right;"> 0.301 </td>
+   <td style="text-align:right;"> 5.342 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 15% </td>
-   <td style="text-align:right;"> 2.857 </td>
-   <td style="text-align:right;"> 4.471 </td>
+   <td style="text-align:right;"> 2.961 </td>
+   <td style="text-align:right;"> 3.782 </td>
+   <td style="text-align:right;"> 0.393 </td>
+   <td style="text-align:right;"> 6.252 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 20% </td>
-   <td style="text-align:right;"> 3.678 </td>
-   <td style="text-align:right;"> 5.520 </td>
+   <td style="text-align:right;"> 3.648 </td>
+   <td style="text-align:right;"> 5.220 </td>
+   <td style="text-align:right;"> 0.502 </td>
+   <td style="text-align:right;"> 6.804 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 25% </td>
-   <td style="text-align:right;"> 4.263 </td>
-   <td style="text-align:right;"> 5.966 </td>
+   <td style="text-align:right;"> 4.128 </td>
+   <td style="text-align:right;"> 5.671 </td>
+   <td style="text-align:right;"> 0.639 </td>
+   <td style="text-align:right;"> 7.213 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 30% </td>
-   <td style="text-align:right;"> 4.737 </td>
-   <td style="text-align:right;"> 6.323 </td>
+   <td style="text-align:right;"> 4.556 </td>
+   <td style="text-align:right;"> 6.018 </td>
+   <td style="text-align:right;"> 0.833 </td>
+   <td style="text-align:right;"> 7.565 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 35% </td>
-   <td style="text-align:right;"> 5.166 </td>
-   <td style="text-align:right;"> 6.623 </td>
+   <td style="text-align:right;"> 4.923 </td>
+   <td style="text-align:right;"> 6.312 </td>
+   <td style="text-align:right;"> 1.142 </td>
+   <td style="text-align:right;"> 7.902 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 40% </td>
-   <td style="text-align:right;"> 5.562 </td>
-   <td style="text-align:right;"> 6.904 </td>
+   <td style="text-align:right;"> 5.263 </td>
+   <td style="text-align:right;"> 6.581 </td>
+   <td style="text-align:right;"> 1.899 </td>
+   <td style="text-align:right;"> 8.217 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 45% </td>
-   <td style="text-align:right;"> 5.964 </td>
-   <td style="text-align:right;"> 7.170 </td>
+   <td style="text-align:right;"> 5.600 </td>
+   <td style="text-align:right;"> 6.836 </td>
+   <td style="text-align:right;"> 3.208 </td>
+   <td style="text-align:right;"> 8.521 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 50% </td>
-   <td style="text-align:right;"> 6.413 </td>
-   <td style="text-align:right;"> 7.425 </td>
+   <td style="text-align:right;"> 5.974 </td>
+   <td style="text-align:right;"> 7.089 </td>
+   <td style="text-align:right;"> 4.098 </td>
+   <td style="text-align:right;"> 8.824 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 55% </td>
-   <td style="text-align:right;"> 6.908 </td>
-   <td style="text-align:right;"> 7.701 </td>
+   <td style="text-align:right;"> 6.364 </td>
+   <td style="text-align:right;"> 7.354 </td>
+   <td style="text-align:right;"> 4.817 </td>
+   <td style="text-align:right;"> 9.118 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 60% </td>
-   <td style="text-align:right;"> 7.465 </td>
-   <td style="text-align:right;"> 7.978 </td>
+   <td style="text-align:right;"> 6.806 </td>
+   <td style="text-align:right;"> 7.620 </td>
+   <td style="text-align:right;"> 5.400 </td>
+   <td style="text-align:right;"> 9.440 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 65% </td>
-   <td style="text-align:right;"> 8.184 </td>
-   <td style="text-align:right;"> 8.269 </td>
+   <td style="text-align:right;"> 7.345 </td>
+   <td style="text-align:right;"> 7.912 </td>
+   <td style="text-align:right;"> 6.147 </td>
+   <td style="text-align:right;"> 9.783 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 70% </td>
-   <td style="text-align:right;"> 9.135 </td>
-   <td style="text-align:right;"> 8.622 </td>
+   <td style="text-align:right;"> 8.078 </td>
+   <td style="text-align:right;"> 8.245 </td>
+   <td style="text-align:right;"> 6.969 </td>
+   <td style="text-align:right;"> 10.176 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 75% </td>
-   <td style="text-align:right;"> 10.345 </td>
-   <td style="text-align:right;"> 9.060 </td>
+   <td style="text-align:right;"> 9.089 </td>
+   <td style="text-align:right;"> 8.659 </td>
+   <td style="text-align:right;"> 7.845 </td>
+   <td style="text-align:right;"> 10.635 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 80% </td>
-   <td style="text-align:right;"> 11.635 </td>
-   <td style="text-align:right;"> 9.665 </td>
+   <td style="text-align:right;"> 10.385 </td>
+   <td style="text-align:right;"> 9.250 </td>
+   <td style="text-align:right;"> 8.859 </td>
+   <td style="text-align:right;"> 11.157 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 85% </td>
-   <td style="text-align:right;"> 13.014 </td>
-   <td style="text-align:right;"> 10.719 </td>
+   <td style="text-align:right;"> 11.861 </td>
+   <td style="text-align:right;"> 10.313 </td>
+   <td style="text-align:right;"> 10.125 </td>
+   <td style="text-align:right;"> 11.868 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 90% </td>
-   <td style="text-align:right;"> 14.680 </td>
-   <td style="text-align:right;"> 12.943 </td>
+   <td style="text-align:right;"> 13.561 </td>
+   <td style="text-align:right;"> 12.554 </td>
+   <td style="text-align:right;"> 11.672 </td>
+   <td style="text-align:right;"> 13.130 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 95% </td>
-   <td style="text-align:right;"> 16.986 </td>
-   <td style="text-align:right;"> 17.130 </td>
+   <td style="text-align:right;"> 15.965 </td>
+   <td style="text-align:right;"> 16.720 </td>
+   <td style="text-align:right;"> 14.853 </td>
+   <td style="text-align:right;"> 16.216 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 100% </td>
-   <td style="text-align:right;"> 45.979 </td>
-   <td style="text-align:right;"> 40.878 </td>
+   <td style="text-align:right;"> 45.035 </td>
+   <td style="text-align:right;"> 38.339 </td>
+   <td style="text-align:right;"> 38.631 </td>
+   <td style="text-align:right;"> 52.027 </td>
   </tr>
 </tbody>
 </table>
@@ -616,7 +801,7 @@ The standard way of calculating this is log10(genes)/log10(counts) however this 
 ## 
 ## Coefficients:
 ##                  (Intercept)  log10(qc.metrics$nCount_RNA)  
-##                       0.8027                        0.6678
+##                       0.8111                        0.6615
 ```
 
 ![](02-filtering_files/figure-html/complex-1.png)<!-- -->
@@ -661,11 +846,19 @@ These filters can be put in place with the `subset` function.
 <tbody>
   <tr>
    <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 24478 </td>
+   <td style="text-align:right;"> 28124 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> LRTI_WRK2 </td>
-   <td style="text-align:right;"> 14718 </td>
+   <td style="text-align:right;"> 14933 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> LRTI_WRK3 </td>
+   <td style="text-align:right;"> 3343 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> LRTI_WRK4 </td>
+   <td style="text-align:right;"> 14297 </td>
   </tr>
 </tbody>
 </table>
@@ -686,11 +879,19 @@ These filters can be put in place with the `subset` function.
 <tbody>
   <tr>
    <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 11727 </td>
+   <td style="text-align:right;"> 12372 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> LRTI_WRK2 </td>
-   <td style="text-align:right;"> 12405 </td>
+   <td style="text-align:right;"> 12480 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> LRTI_WRK3 </td>
+   <td style="text-align:right;"> 2084 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> LRTI_WRK4 </td>
+   <td style="text-align:right;"> 13116 </td>
   </tr>
 </tbody>
 </table>
@@ -698,6 +899,7 @@ These filters can be put in place with the `subset` function.
 **Play with the filtering parameters, and see how the results change. Is there a set of parameters you feel is more appropriate? Why?**
 
 ## Feature filtering
+
 When creating the base Seurat object, we had the opportunity filter out some genes using the "min.cells" argument. At the time, we set the min feature to keep a cell to 300. Since we didn't filter out any features then (set to 0), we can apply a filter at this point. If we had filtered when the object was created, this would be an opportunity to be more aggressive. The custom code below provides a function that filters genes requiring a min.umi in at least min.cells, or takes a user-provided list of genes.
 
 
@@ -717,22 +919,18 @@ FilterGenes <- function(object, min.umi = NA, min.cells = NA, genes = NULL) {
   return(object)
 }
 # apply filter
-experiment.filter <- FilterGenes(object = experiment.aggregate.filtered, min.umi = 2, min.cells = 10)
+experiment.filter <- FilterGenes(object = experiment.aggregate.filtered, min.umi = 1, min.cells = 2)
 # filtering results
 experiment.filter
 ```
 
 ```
 ## An object of class Seurat 
-## 16019 features across 24132 samples within 1 assay 
-## Active assay: RNA (16019 features, 0 variable features)
+## 31828 features across 40052 samples within 1 assay 
+## Active assay: RNA (31828 features, 0 variable features)
 ##  1 layer present: counts
 ```
-
-``` r
-experiment.aggregate.filtered <- experiment.filter
-```
-
+## We are going to choose to not filter the genes at this time, but know you can
 
 ![](02-filtering_files/figure-html/filteredviz-1.png)<!-- -->
 

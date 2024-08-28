@@ -1,7 +1,7 @@
 ---
 title: "Basics Single Cell RNA-Seq Part 1: Create Seurat object"
 author: "UCSF CAT Bioinformatics"
-date: "2024-08-27"
+date: "2024-08-28"
 output:
     html_document:
       keep_md: TRUE
@@ -46,6 +46,16 @@ The 10X data and metadata we have available for this subset of a recent experime
    <td style="text-align:left;"> LRTI_Patient </td>
    <td style="text-align:left;"> Batch1 </td>
   </tr>
+  <tr>
+   <td style="text-align:left;"> LRTI_WRK3 </td>
+   <td style="text-align:left;"> LRTI_Patient </td>
+   <td style="text-align:left;"> Batch2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> LRTI_WRK4 </td>
+   <td style="text-align:left;"> LRTI_Patient </td>
+   <td style="text-align:left;"> Batch2 </td>
+  </tr>
 </tbody>
 </table>
 
@@ -60,106 +70,146 @@ This roughly replicates the table that appears in the Cell Ranger web summary fi
    <th style="text-align:left;">  </th>
    <th style="text-align:left;"> LRTI_WRK1 </th>
    <th style="text-align:left;"> LRTI_WRK2 </th>
+   <th style="text-align:left;"> LRTI_WRK3 </th>
+   <th style="text-align:left;"> LRTI_WRK4 </th>
   </tr>
  </thead>
 <tbody>
-  <tr grouplength="3"><td colspan="3" style="background-color: #666; color: #fff;"><strong>Overview</strong></td></tr>
+  <tr grouplength="3"><td colspan="5" style="background-color: #666; color: #fff;"><strong>Overview</strong></td></tr>
 <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Estimated Number of Cells </td>
    <td style="text-align:left;"> 15,663 </td>
    <td style="text-align:left;"> 15,431 </td>
+   <td style="text-align:left;"> 3,502 </td>
+   <td style="text-align:left;"> 15,139 </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Mean Reads per Cell </td>
    <td style="text-align:left;"> 50,750 </td>
    <td style="text-align:left;"> 51,767 </td>
+   <td style="text-align:left;"> 225,561 </td>
+   <td style="text-align:left;"> 51,048 </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Median Genes per Cell </td>
    <td style="text-align:left;"> 2,938 </td>
    <td style="text-align:left;"> 4,631 </td>
+   <td style="text-align:left;"> 1,952 </td>
+   <td style="text-align:left;"> 4,977 </td>
   </tr>
-  <tr grouplength="6"><td colspan="3" style="background-color: #666; color: #fff;"><strong>Sequencing Characteristics</strong></td></tr>
+  <tr grouplength="6"><td colspan="5" style="background-color: #666; color: #fff;"><strong>Sequencing Characteristics</strong></td></tr>
 <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Number of Reads </td>
    <td style="text-align:left;"> 794,894,162 </td>
    <td style="text-align:left;"> 798,812,047 </td>
+   <td style="text-align:left;"> 789,916,083 </td>
+   <td style="text-align:left;"> 772,811,919 </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Valid Barcodes </td>
    <td style="text-align:left;"> 84.8% </td>
    <td style="text-align:left;"> 87.3% </td>
+   <td style="text-align:left;"> 85.9% </td>
+   <td style="text-align:left;"> 87.7% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Sequencing Saturation </td>
    <td style="text-align:left;"> 34.9% </td>
    <td style="text-align:left;"> 34.1% </td>
+   <td style="text-align:left;"> 79.7% </td>
+   <td style="text-align:left;"> 28.1% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Q30 Bases in Barcode </td>
    <td style="text-align:left;"> 95.8% </td>
    <td style="text-align:left;"> 96.3% </td>
+   <td style="text-align:left;"> 96.0% </td>
+   <td style="text-align:left;"> 96.1% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Q30 Bases in RNA Read </td>
    <td style="text-align:left;"> 94.8% </td>
    <td style="text-align:left;"> 96.1% </td>
+   <td style="text-align:left;"> 93.4% </td>
+   <td style="text-align:left;"> 95.8% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Q30 Bases in UMI </td>
    <td style="text-align:left;"> 97.3% </td>
    <td style="text-align:left;"> 97.5% </td>
+   <td style="text-align:left;"> 97.4% </td>
+   <td style="text-align:left;"> 97.4% </td>
   </tr>
-  <tr grouplength="10"><td colspan="3" style="background-color: #666; color: #fff;"><strong>Mapping Characteristics</strong></td></tr>
+  <tr grouplength="10"><td colspan="5" style="background-color: #666; color: #fff;"><strong>Mapping Characteristics</strong></td></tr>
 <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Reads Mapped to Genome </td>
    <td style="text-align:left;"> 94.4% </td>
    <td style="text-align:left;"> 96.3% </td>
+   <td style="text-align:left;"> 89.3% </td>
+   <td style="text-align:left;"> 96.0% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Reads Mapped Confidently to Genome </td>
    <td style="text-align:left;"> 57.7% </td>
    <td style="text-align:left;"> 78.6% </td>
+   <td style="text-align:left;"> 61.3% </td>
+   <td style="text-align:left;"> 78.2% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Reads Mapped Confidently to Intergenic Regions </td>
    <td style="text-align:left;"> 6.3% </td>
    <td style="text-align:left;"> 5.3% </td>
+   <td style="text-align:left;"> 10.7% </td>
+   <td style="text-align:left;"> 4.6% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Reads Mapped Confidently to Intronic Regions </td>
    <td style="text-align:left;"> 7.2% </td>
    <td style="text-align:left;"> 5.9% </td>
+   <td style="text-align:left;"> 8.8% </td>
+   <td style="text-align:left;"> 5.0% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Reads Mapped Confidently to Exonic Regions </td>
    <td style="text-align:left;"> 44.2% </td>
    <td style="text-align:left;"> 67.4% </td>
+   <td style="text-align:left;"> 41.8% </td>
+   <td style="text-align:left;"> 68.6% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Reads Mapped Confidently to Transcriptome </td>
    <td style="text-align:left;"> 46.4% </td>
    <td style="text-align:left;"> 66.2% </td>
+   <td style="text-align:left;"> 44.8% </td>
+   <td style="text-align:left;"> 66.9% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Reads Mapped Antisense to Gene </td>
    <td style="text-align:left;"> 4.7% </td>
    <td style="text-align:left;"> 6.7% </td>
+   <td style="text-align:left;"> 5.5% </td>
+   <td style="text-align:left;"> 6.3% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Fraction Reads in Cells </td>
    <td style="text-align:left;"> 81.1% </td>
    <td style="text-align:left;"> 94.1% </td>
+   <td style="text-align:left;"> 80.7% </td>
+   <td style="text-align:left;"> 95.1% </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Total Genes Detected </td>
    <td style="text-align:left;"> 32,136 </td>
    <td style="text-align:left;"> 30,533 </td>
+   <td style="text-align:left;"> 29,502 </td>
+   <td style="text-align:left;"> 29,450 </td>
   </tr>
   <tr>
    <td style="text-align:left;padding-left: 2em;" indentlevel="1"> Median UMI Counts per Cell </td>
    <td style="text-align:left;"> 7,253 </td>
    <td style="text-align:left;"> 19,299 </td>
+   <td style="text-align:left;"> 4,812 </td>
+   <td style="text-align:left;"> 23,128 </td>
   </tr>
 </tbody>
 </table>
@@ -216,7 +266,7 @@ levels(gxp_experiment.aggregate$orig.ident)
 ```
 
 ```
-## [1] "LRTI_WRK1" "LRTI_WRK2"
+## [1] "LRTI_WRK1" "LRTI_WRK2" "LRTI_WRK3" "LRTI_WRK4"
 ```
 
 These sample identifiers are stored in the experiment.metadata object as well, which allows us to match the other metadata contained within that table to the correct cells within the Seurat object.
@@ -284,7 +334,7 @@ gxp_experiment.aggregate@assays # a slot is accessed with the @ symbol
 
 ```
 ## $RNA
-## Assay (v5) data with 38606 features for 39196 cells
+## Assay (v5) data with 38606 features for 60697 cells
 ## First 10 features:
 ##  DDX11L2, MIR1302-2HG, FAM138A, ENSG00000290826, OR4F5, ENSG00000238009,
 ## ENSG00000239945, ENSG00000239906, ENSG00000241860, ENSG00000241599 
@@ -320,64 +370,64 @@ head(gxp_experiment.aggregate[[]]) %>%
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> AAACCAAAGACGACGA+LRTI_WRK1 </td>
+   <td style="text-align:left;"> AAACCAAAGACATGAA+LRTI_WRK1 </td>
    <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 1154 </td>
-   <td style="text-align:right;"> 304 </td>
+   <td style="text-align:right;"> 411 </td>
+   <td style="text-align:right;"> 318 </td>
    <td style="text-align:left;"> LRTI_Patient </td>
    <td style="text-align:left;"> Batch1 </td>
-   <td style="text-align:right;"> 68.1109185 </td>
-   <td style="text-align:right;"> 1.7331023 </td>
+   <td style="text-align:right;"> 7.0559611 </td>
+   <td style="text-align:right;"> 8.5158151 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AAACCAAAGACGACGA+LRTI_WRK1 </td>
+   <td style="text-align:left;"> LRTI_WRK1 </td>
+   <td style="text-align:right;"> 1373 </td>
+   <td style="text-align:right;"> 326 </td>
+   <td style="text-align:left;"> LRTI_Patient </td>
+   <td style="text-align:left;"> Batch1 </td>
+   <td style="text-align:right;"> 70.9395484 </td>
+   <td style="text-align:right;"> 1.5294975 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> AAACCAAAGAGCCCAT+LRTI_WRK1 </td>
    <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 17004 </td>
-   <td style="text-align:right;"> 4736 </td>
+   <td style="text-align:right;"> 19009 </td>
+   <td style="text-align:right;"> 5020 </td>
    <td style="text-align:left;"> LRTI_Patient </td>
    <td style="text-align:left;"> Batch1 </td>
-   <td style="text-align:right;"> 3.7697012 </td>
-   <td style="text-align:right;"> 15.6080922 </td>
+   <td style="text-align:right;"> 4.0454522 </td>
+   <td style="text-align:right;"> 14.9297701 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> AAACCAAAGAGGCGTA+LRTI_WRK1 </td>
    <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 391 </td>
-   <td style="text-align:right;"> 323 </td>
+   <td style="text-align:right;"> 428 </td>
+   <td style="text-align:right;"> 345 </td>
    <td style="text-align:left;"> LRTI_Patient </td>
    <td style="text-align:left;"> Batch1 </td>
-   <td style="text-align:right;"> 0.2557545 </td>
-   <td style="text-align:right;"> 4.6035806 </td>
+   <td style="text-align:right;"> 0.2336449 </td>
+   <td style="text-align:right;"> 4.9065421 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> AAACCAAAGATTCAAC+LRTI_WRK1 </td>
    <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 3225 </td>
-   <td style="text-align:right;"> 1735 </td>
+   <td style="text-align:right;"> 3493 </td>
+   <td style="text-align:right;"> 1846 </td>
    <td style="text-align:left;"> LRTI_Patient </td>
    <td style="text-align:left;"> Batch1 </td>
-   <td style="text-align:right;"> 4.4651163 </td>
-   <td style="text-align:right;"> 0.5581395 </td>
+   <td style="text-align:right;"> 4.7237332 </td>
+   <td style="text-align:right;"> 0.5153163 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> AAACCAAAGCAACCCG+LRTI_WRK1 </td>
    <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 1097 </td>
-   <td style="text-align:right;"> 823 </td>
+   <td style="text-align:right;"> 1168 </td>
+   <td style="text-align:right;"> 866 </td>
    <td style="text-align:left;"> LRTI_Patient </td>
    <td style="text-align:left;"> Batch1 </td>
-   <td style="text-align:right;"> 8.1130356 </td>
-   <td style="text-align:right;"> 3.7374658 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> AAACCAAAGCCGCCAA+LRTI_WRK1 </td>
-   <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 723 </td>
-   <td style="text-align:right;"> 313 </td>
-   <td style="text-align:left;"> LRTI_Patient </td>
-   <td style="text-align:left;"> Batch1 </td>
-   <td style="text-align:right;"> 53.5269710 </td>
-   <td style="text-align:right;"> 3.3195021 </td>
+   <td style="text-align:right;"> 8.3904110 </td>
+   <td style="text-align:right;"> 3.6815068 </td>
   </tr>
 </tbody>
 </table>
@@ -429,14 +479,26 @@ gxp_experiment.aggregate@tools$CalculateBarcodeInflections$inflection_points %>%
   <tr>
    <td style="text-align:left;"> GTTGACATCGCCCTTA+LRTI_WRK1 </td>
    <td style="text-align:left;"> LRTI_WRK1 </td>
-   <td style="text-align:right;"> 119888 </td>
+   <td style="text-align:right;"> 134053 </td>
    <td style="text-align:right;"> 2 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> CGTAAATTCAGCCTCC+LRTI_WRK2 </td>
    <td style="text-align:left;"> LRTI_WRK2 </td>
-   <td style="text-align:right;"> 83139 </td>
+   <td style="text-align:right;"> 93908 </td>
    <td style="text-align:right;"> 8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> CTACATCTCCTGCTAT+LRTI_WRK3 </td>
+   <td style="text-align:left;"> LRTI_WRK3 </td>
+   <td style="text-align:right;"> 214578 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AGCCCTCTCCAGCCCT+LRTI_WRK4 </td>
+   <td style="text-align:left;"> LRTI_WRK4 </td>
+   <td style="text-align:right;"> 329 </td>
+   <td style="text-align:right;"> 14297 </td>
   </tr>
 </tbody>
 </table>
@@ -447,7 +509,7 @@ SubsetByBarcodeInflections(object = gxp_experiment.aggregate)
 
 ```
 ## An object of class Seurat 
-## 38606 features across 6 samples within 1 assay 
+## 38606 features across 14301 samples within 1 assay 
 ## Active assay: RNA (38606 features, 0 variable features)
 ##  1 layer present: counts
 ```

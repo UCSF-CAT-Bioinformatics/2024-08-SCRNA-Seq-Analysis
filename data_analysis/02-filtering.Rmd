@@ -24,6 +24,7 @@ library(kableExtra)
 ```
 
 If you are continuing directly from part 1, the experiment.aggregate object is likely already in your workspace. In case you cleared your workspace at the end of the previous section, or are working on this project at a later date after re-starting R, you can use the `readRDS` function to read your saved Seurat object from part 1.
+
 ```{r readRDS}
 experiment.aggregate <- readRDS("scRNA_workshop-01.rds")
 experiment.aggregate
@@ -215,7 +216,7 @@ qc.metrics %>%
   ggplot(aes(percent.mito)) + 
   geom_histogram(binwidth = 0.5, fill="yellow", colour="black") +
   ggtitle("Distribution of Percentage Mitochondrion") +
-  geom_vline(xintercept = 10)
+  geom_vline(xintercept = 15)
 ```  
 
 
@@ -240,8 +241,9 @@ experiment.aggregate.filtered <- subset(
   experiment.aggregate,
     nFeature_RNA>750 & 
     nFeature_RNA<8000 & 
-    percent.mito < 10
+    percent.mito < 15
 )
+
 ```
 
 #### Post filtered data
@@ -255,6 +257,7 @@ kable(textra, table.attr = "style='width:50%;'", caption="Cell countse per sampl
 **Play with the filtering parameters, and see how the results change. Is there a set of parameters you feel is more appropriate? Why?**
 
 ## Feature filtering
+
 When creating the base Seurat object, we had the opportunity filter out some genes using the "min.cells" argument. At the time, we set the min feature to keep a cell to 300. Since we didn't filter out any features then (set to 0), we can apply a filter at this point. If we had filtered when the object was created, this would be an opportunity to be more aggressive. The custom code below provides a function that filters genes requiring a min.umi in at least min.cells, or takes a user-provided list of genes.
 
 
@@ -273,12 +276,11 @@ FilterGenes <- function(object, min.umi = NA, min.cells = NA, genes = NULL) {
   return(object)
 }
 # apply filter
-experiment.filter <- FilterGenes(object = experiment.aggregate.filtered, min.umi = 2, min.cells = 10)
+experiment.filter <- FilterGenes(object = experiment.aggregate.filtered, min.umi = 1, min.cells = 2)
 # filtering results
 experiment.filter
-experiment.aggregate.filtered <- experiment.filter
 ```
-
+## We are going to choose to not filter the genes at this time, but know you can
 
 ```{r filteredviz, warning=FALSE,error=FALSE, message=FALSE, echo=FALSE, fig.width=10}
 qc.metrics <- experiment.aggregate.filtered[[]] %>%
