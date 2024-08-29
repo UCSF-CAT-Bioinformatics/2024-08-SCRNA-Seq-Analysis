@@ -422,7 +422,6 @@ gxp_experiment.aggregate@tools$CalculateBarcodeInflections$inflection_points %>%
 ``` r
 SubsetByBarcodeInflections(object = gxp_experiment.aggregate)
 <div class='r_output'>
-</div>## An object of class Seurat 
 ## 38606 features across 6 samples within 1 assay 
 ## Active assay: RNA (38606 features, 0 variable features)
 ##  1 layer present: counts
