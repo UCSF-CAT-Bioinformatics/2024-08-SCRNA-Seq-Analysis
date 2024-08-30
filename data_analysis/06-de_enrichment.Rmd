@@ -20,9 +20,17 @@ library(limma)
 library(topGO)
 library(dplyr)
 library(kableExtra)
-set.seed(12345)
+```
+
+We will be continuing the work from Part 1 and so need to load in the RDS file
+```{r readRDS}
 experiment.aggregate <- readRDS("scRNA_workshop-05.rds")
-Idents(experiment.aggregate) <- "finalcluster"
+experiment.aggregate
+```
+
+Lets go ahead and set that common seed for everyone
+```{r seed}
+set.seed(12345)
 ```
 
 ## 1. Gene Ontology (GO) Enrichment of Genes Expressed in a Cluster
@@ -52,6 +60,7 @@ names(geneList) <- all.genes
 	  kable() %>%
 	  kable_styling("striped", fixed_thead = TRUE)
 ```
+
 * Annotated: number of genes (out of all.genes) that are annotated with that GO term
 * Significant: number of genes that are annotated with that GO term and meet our criteria for "expressed"
 * Expected: Under random chance, number of genes that would be expected to be annotated with that GO term and meeting our criteria for "expressed"
@@ -68,8 +77,8 @@ keep <- rownames(expr)[which(n.gt.0/ncol(expr) >= 0.1)]
 expr2 <- expr[keep,]
 
 # Set up "design matrix" with statistical model
-cluster10$proper.group <- make.names(cluster10$group)
-mm <- model.matrix(~0 + proper.group + S.Score + G2M.Score + percent_MT + nFeature_RNA, data = cluster10[[]])
+cluster10$proper.group <- make.names(cluster10$orig.ident)
+mm <- model.matrix(~0 + proper.group + S.Score + G2M.Score + percent.mito + nFeature_RNA, data = cluster10[[]])
 head(mm) %>%
 	  kable() %>%
 	  kable_styling("striped", fixed_thead = TRUE)
@@ -84,7 +93,7 @@ head(coef(fit)) %>%
 	  kable_styling("striped", fixed_thead = TRUE)
 
 # Test 'Normal' - 'Colorectal.Cancer'
-contr <- makeContrasts(proper.groupNormal - proper.groupColorectal.Cancer, levels = colnames(coef(fit)))
+contr <- makeContrasts(proper.groupLRTI_WRK1	 - proper.groupLRTI_WRK2	, levels = colnames(coef(fit)))
 contr %>%
 	  kable() %>%
 	  kable_styling("striped", fixed_thead = TRUE)
@@ -121,14 +130,7 @@ Pseudobulk DE may result in better false discovery rate control than cell-level 
 
 The Seurat function `AggregateExpression()` can be used to sum counts as described [here](https://satijalab.org/seurat/articles/de_vignette).
 
-A tutorial on using limma for bulk RNASeq is available [here](https://ucsf-cat-bioinformatics.github.io/2023-June-RNA-Seq-Analysis/data_analysis/DE_Analysis_mm_with_quizzes).
-
 ## Prepare for the next section
-
-#### Download Rmd document
-```{r download_Rmd, eval=TRUE}
-download.file("https://raw.githubusercontent.com/ucsf-cat-bioinformatics/2024-08-SCRNA-Seq-Analysis/main/data_analysis/07-doublet_detection.Rmd", "07-doublet_detection.Rmd")
-```
 
 #### Session Information
 ```{r sessionInfo, warning=FALSE,error=FALSE,message=FALSE}
